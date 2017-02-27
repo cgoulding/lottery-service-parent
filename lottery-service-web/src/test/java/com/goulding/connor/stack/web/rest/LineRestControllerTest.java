@@ -5,10 +5,10 @@
 
 package com.goulding.connor.stack.web.rest;
 
-import com.goulding.connor.stack.service.LineService;
-import com.goulding.connor.stack.web.config.StackConfig;
 import com.goulding.connor.stack.service.model.LineDto;
+import com.goulding.connor.stack.service.repository.LineRepository;
 import com.goulding.connor.stack.web.StackServiceApplication;
+import com.goulding.connor.stack.web.config.StackConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,12 +28,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 /**
@@ -58,7 +55,7 @@ public class LineRestControllerTest {
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
-    private LineService lineService;
+    private LineRepository lineRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -78,11 +75,11 @@ public class LineRestControllerTest {
     @Before
     public void setup() throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(StackConfig.class);
-        this.lineService = context.getBean(LineService.class);
+        this.lineRepository = context.getBean(LineRepository.class);
 
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        this.lineService.createLine(new LineDto(1, 2, 3));
+        this.lineRepository.createLine(new LineDto(1, 2, 3));
     }
 
     @Test

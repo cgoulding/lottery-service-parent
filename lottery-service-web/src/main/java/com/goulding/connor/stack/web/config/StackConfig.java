@@ -18,7 +18,7 @@ import org.springframework.context.annotation.PropertySources;
  */
 @Configuration
 @PropertySources({
-        @PropertySource("classpath:META-INF/spring/lottery-service/lottery-service.properties")
+        @PropertySource("classpath:META-INF/spring/lottery-service-web/lottery-service.properties")
 })
 public class StackConfig {
 

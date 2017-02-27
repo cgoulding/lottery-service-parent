@@ -6,7 +6,6 @@
 package com.goulding.connor.stack.service;
 
 import com.goulding.connor.stack.service.model.LineDto;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +20,6 @@ import org.junit.Test;
  */
 public class DefaultEvaluationServiceTest
 {
-    /*
-    You have a series of lines on a ticket with 3 numbers, each of which has a value of 0, 1, or 2.
-    For each ticket if the sum of the values is 2, the result is 10.
-    Otherwise if they are all the same, the result is 5.
-    Otherwise so long as both 2nd and 3rd numbers are different from the 1st, the result is 1.
-    Otherwise the result is 0.
-     */
     private LineEvaluationService lineEvaluationService;
 
     @Before
@@ -37,6 +29,13 @@ public class DefaultEvaluationServiceTest
     }
 
     @Test
+    /*
+     * You have a series of lines on a ticket with 3 numbers, each of which has a value of 0, 1, or 2.
+     * For each ticket if the sum of the values is 2, the result is 10.
+     * Otherwise if they are all the same, the result is 5.
+     * Otherwise so long as both 2nd and 3rd numbers are different from the 1st, the result is 1.
+     * Otherwise the result is 0.
+     */
     public void testEvaluateLine()
     {
         Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new LineDto(2, 0, 0)));
@@ -65,11 +64,7 @@ public class DefaultEvaluationServiceTest
         Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(2, 0, 1)));
         Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(2, 1, 0)));
         Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(2, 1, 1)));
-    }
 
-    @After
-    public void tearDown()
-    {
-
+        Assert.assertEquals(Integer.valueOf(0), lineEvaluationService.evaluateLine(new LineDto(2, 0, 2)));
     }
 }
