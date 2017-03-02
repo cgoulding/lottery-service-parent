@@ -13,12 +13,12 @@ package com.goulding.connor.lottery.service.model;
  *
  * @since SINCE-TBD
  */
-public class LineResultDto
+public class LineResult
 {
-    private final LineDto line;
+    private final Line    line;
     private final Integer result;
 
-    public LineResultDto(LineDto line, Integer result)
+    public LineResult(Line line, Integer result)
     {
         this.line = line;
         this.result = result;
@@ -29,7 +29,7 @@ public class LineResultDto
         return result;
     }
 
-    public LineDto getLine()
+    public Line getLine()
     {
         return line;
     }

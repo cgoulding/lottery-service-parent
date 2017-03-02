@@ -1,12 +1,11 @@
 package com.goulding.connor.lottery.service;
 
-import com.goulding.connor.lottery.service.model.LineDto;
-import com.goulding.connor.lottery.service.model.LineResultDto;
-import com.goulding.connor.lottery.service.model.TicketDto;
-import com.goulding.connor.lottery.service.model.TicketResultDto;
+import com.goulding.connor.lottery.service.model.Line;
+import com.goulding.connor.lottery.service.model.LineResult;
+import com.goulding.connor.lottery.service.model.Ticket;
+import com.goulding.connor.lottery.service.model.TicketResult;
 import com.goulding.connor.lottery.service.repository.TicketRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -30,21 +29,21 @@ public class DefaultLotteryService implements LotteryService
     }
 
     @Override
-    public TicketDto findTicket(String ticketUuid)
+    public Ticket findTicket(String ticketUuid)
     {
         return ticketRepository.readTicket(ticketUuid);
     }
 
     @Override
-    public List<TicketDto> readAllTickets()
+    public List<Ticket> readAllTickets()
     {
         return ticketRepository.readAllTickets();
     }
 
     @Override
-    public TicketDto generateTicket(Integer numberOfLines)
+    public Ticket generateTicket(Integer numberOfLines)
     {
-        List<LineDto> lines = new ArrayList<>();
+        List<Line> lines = new ArrayList<>();
         for (int i = 0; i < numberOfLines; i++)
         {
             lines.add(lineGenerationService.generateLine());
@@ -53,34 +52,34 @@ public class DefaultLotteryService implements LotteryService
     }
 
     @Override
-    public TicketResultDto checkStatus(String ticketUuid)
+    public TicketResult checkStatus(String ticketUuid)
     {
-        TicketDto existing = ticketRepository.readTicket(ticketUuid);
+        Ticket existing = ticketRepository.readTicket(ticketUuid);
         if (existing == null)
         {
             return null;
         }
 
-        TicketDto checked = new TicketDto(existing.getTicketUuid(), existing.getLines(), Calendar.getInstance().getTime());
+        Ticket checked = new Ticket(existing.getTicketUuid(), existing.getLines(), Calendar.getInstance().getTime());
         ticketRepository.updateTicket(checked);
 
-        List<LineResultDto> lineResults = existing.getLines().stream()
+        List<LineResult> lineResults = existing.getLines().stream()
                 .map(this::evaluate)
                 .collect(Collectors.toList());
 
-        return new TicketResultDto(ticketUuid, lineResults);
+        return new TicketResult(ticketUuid, lineResults);
     }
 
     @Override
-    public TicketDto ammendTicket(String ticketUuid, Integer numberOfLines)
+    public Ticket ammendTicket(String ticketUuid, Integer numberOfLines)
     {
-        TicketDto existing = ticketRepository.readTicket(ticketUuid);
+        Ticket existing = ticketRepository.readTicket(ticketUuid);
         if (existing == null)
         {
             return null;
         }
 
-        List<LineDto> newLines = new ArrayList<>();
+        List<Line> newLines = new ArrayList<>();
         newLines.addAll(existing.getLines());
 
         // Only allow ammend if ticket has not already been checked
@@ -91,12 +90,12 @@ public class DefaultLotteryService implements LotteryService
             }
         }
 
-        return ticketRepository.updateTicket(new TicketDto(existing.getTicketUuid(), newLines, null));
+        return ticketRepository.updateTicket(new Ticket(existing.getTicketUuid(), newLines, null));
     }
 
-    private LineResultDto evaluate(LineDto line)
+    private LineResult evaluate(Line line)
     {
         Integer evaluation = lineEvaluationService.evaluateLine(line);
-        return new LineResultDto(line, evaluation);
+        return new LineResult(line, evaluation);
     }
 }

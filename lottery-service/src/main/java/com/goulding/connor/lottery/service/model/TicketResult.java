@@ -16,12 +16,12 @@ import java.util.List;
  *
  * @since SINCE-TBD
  */
-public class TicketResultDto
+public class TicketResult
 {
     private final String ticketUuid;
-    private final List<LineResultDto> lineResults = new ArrayList<>();
+    private final List<LineResult> lineResults = new ArrayList<>();
 
-    public TicketResultDto(String ticketUuid, List<LineResultDto> lineResults)
+    public TicketResult(String ticketUuid, List<LineResult> lineResults)
     {
         this.ticketUuid = ticketUuid;
         if (lineResults != null)
@@ -35,7 +35,7 @@ public class TicketResultDto
         return ticketUuid;
     }
 
-    public List<LineResultDto> getLineResults()
+    public List<LineResult> getLineResults()
     {
         return lineResults;
     }

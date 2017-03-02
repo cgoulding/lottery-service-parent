@@ -1,11 +1,10 @@
 package com.goulding.connor.lottery.service.dao;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.goulding.connor.lottery.service.LottoServiceException;
-import com.goulding.connor.lottery.service.entity.Line;
-import com.goulding.connor.lottery.service.entity.Ticket;
+import com.goulding.connor.lottery.service.entity.LineEntity;
+import com.goulding.connor.lottery.service.entity.TicketEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
@@ -48,7 +46,7 @@ public class FileBasedTicketDao implements TicketDao
     }
 
     @Override
-    public List<Ticket> readTickets()
+    public List<TicketEntity> readTickets()
     {
         try
         {
@@ -61,10 +59,10 @@ public class FileBasedTicketDao implements TicketDao
         }
     }
 
-    private Ticket transform(Path path) {
+    private TicketEntity transform(Path path) {
         try
         {
-            return objectMapper.readValue(path.toFile(), Ticket.class);
+            return objectMapper.readValue(path.toFile(), TicketEntity.class);
         }
         catch (IOException exception)
         {
@@ -74,9 +72,9 @@ public class FileBasedTicketDao implements TicketDao
     }
 
     @Override
-    public Ticket createTicket(List<Line> lines)
+    public TicketEntity createTicket(List<LineEntity> lines)
     {
-        Ticket ticket = new Ticket(UUID.randomUUID().toString(), lines, null);
+        TicketEntity ticket = new TicketEntity(UUID.randomUUID().toString(), lines, null);
         try (FileOutputStream outputStream = new FileOutputStream(directory + File.separator + ticket.getTicketUuid())) {
             objectMapper.writeValue(outputStream, ticket);
         } catch (IOException exception) {
@@ -88,13 +86,13 @@ public class FileBasedTicketDao implements TicketDao
     }
 
     @Override
-    public Ticket readTicket(String ticketUuid)
+    public TicketEntity readTicket(String ticketUuid)
     {
         File ticketSource = new File(directory + File.separator + ticketUuid);
         if (ticketSource.exists())
         {
             try (FileInputStream inputStream = new FileInputStream(directory + File.separator + ticketUuid)) {
-                return objectMapper.readValue(inputStream, Ticket.class);
+                return objectMapper.readValue(inputStream, TicketEntity.class);
             } catch (IOException exception) {
                 LOGGER.error("Unable to read from file", exception);
                 throw new LottoServiceException("Unable to read from file", exception);
@@ -104,7 +102,7 @@ public class FileBasedTicketDao implements TicketDao
     }
 
     @Override
-    public Ticket updateTicket(Ticket ticket)
+    public TicketEntity updateTicket(TicketEntity ticket)
     {
         assert ticket != null;
 

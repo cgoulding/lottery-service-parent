@@ -1,7 +1,7 @@
 package com.goulding.connor.lottery.service.repository;
 
-import com.goulding.connor.lottery.service.model.TicketDto;
-import com.goulding.connor.lottery.service.model.LineDto;
+import com.goulding.connor.lottery.service.model.Ticket;
+import com.goulding.connor.lottery.service.model.Line;
 
 import java.util.List;
 
@@ -10,12 +10,12 @@ import java.util.List;
  */
 public interface TicketRepository
 {
-    List<TicketDto> readAllTickets();
+    List<Ticket> readAllTickets();
 
-    TicketDto addTicket(List<LineDto> lines);
+    Ticket addTicket(List<Line> lines);
 
-    TicketDto readTicket(String ticketUuid);
+    Ticket readTicket(String ticketUuid);
 
-    TicketDto updateTicket(TicketDto updated);
+    Ticket updateTicket(Ticket updated);
 
 }

@@ -5,27 +5,21 @@
 
 package com.goulding.connor.lottery.web.controller;
 
-import com.goulding.connor.lottery.web.LotteryServiceApplication;
-import com.goulding.connor.lottery.service.model.LineDto;
+import com.goulding.connor.lottery.service.model.Line;
 import com.goulding.connor.lottery.service.repository.TicketRepository;
-import com.goulding.connor.lottery.web.config.LotteryServiceConfig;
+import com.goulding.connor.lottery.web.LotteryServiceApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
@@ -44,19 +38,13 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LotteryServiceApplication.class)
-@WebAppConfiguration
 public class TicketRestControllerTest
 {
+    private MockMvc              mockMvc;
+    private HttpMessageConverter httpMessageConverter;
 
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
-
-    private MockMvc mockMvc;
-
-    private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
-    private TicketRepository ticketRepository;
+    @Autowired
+    private TicketRepository     ticketRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -64,29 +52,24 @@ public class TicketRestControllerTest
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
 
-        this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream()
+        this.httpMessageConverter = Arrays.asList(converters).stream()
                 .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
                 .findAny()
                 .orElse(null);
 
-        assertNotNull("the JSON message converter must not be null",
-                this.mappingJackson2HttpMessageConverter);
+        assertNotNull("the JSON message converter must not be null", this.httpMessageConverter);
     }
 
     @Before
     public void setup() throws Exception {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(LotteryServiceConfig.class);
-        this.ticketRepository = context.getBean(TicketRepository.class);
-
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-
-        this.ticketRepository.addTicket(Arrays.asList(new LineDto(1, 1, 1)));
+        this.ticketRepository.addTicket(Arrays.asList(new Line(1, 1, 1)));
     }
 
     @Test
     public void readLines() throws Exception {
-        mockMvc.perform(get("/line")
-                .contentType(contentType))
+        mockMvc.perform(get("/tickets")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -125,11 +108,11 @@ public class TicketRestControllerTest
 //                .content(bookmarkJson))
 //                .andExpect(status().isCreated());
 //    }
-
-    protected String json(Object o) throws IOException {
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        this.mappingJackson2HttpMessageConverter.write(
-                o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
-        return mockHttpOutputMessage.getBodyAsString();
-    }
+//
+//    protected String json(Object o) throws IOException {
+//        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
+//        this.httpMessageConverter.write(
+//                o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
+//        return mockHttpOutputMessage.getBodyAsString();
+//    }
 }

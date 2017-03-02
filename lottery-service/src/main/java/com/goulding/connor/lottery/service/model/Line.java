@@ -3,13 +3,14 @@ package com.goulding.connor.lottery.service.model;
 /**
  * Created by connor.
  */
-public class LineDto {
+public class Line
+{
 
     private final Integer number1;
     private final Integer number2;
     private final Integer number3;
 
-    public LineDto(Integer number1, Integer number2, Integer number3) {
+    public Line(Integer number1, Integer number2, Integer number3) {
         this.number1 = number1;
         this.number2 = number2;
         this.number3 = number3;

@@ -5,11 +5,10 @@
 
 package com.goulding.connor.lottery.web.resource;
 
-import com.goulding.connor.lottery.service.model.LineDto;
-import com.goulding.connor.lottery.service.model.TicketDto;
+import com.goulding.connor.lottery.service.model.Line;
+import com.goulding.connor.lottery.service.model.Ticket;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,10 +24,10 @@ import java.util.List;
 public class TicketResource extends ResourceSupport
 {
     private final String ticketUuid;
-    private final List<LineDto> lines = new ArrayList<>();
+    private final List<Line> lines = new ArrayList<>();
     private final Date checkedTime;
 
-    public TicketResource(TicketDto ticketDto)
+    public TicketResource(Ticket ticketDto)
     {
         this.ticketUuid = ticketDto.getTicketUuid();
         this.checkedTime = ticketDto.getCheckedTime();
@@ -43,7 +42,7 @@ public class TicketResource extends ResourceSupport
         return ticketUuid;
     }
 
-    public List<LineDto> getLines()
+    public List<Line> getLines()
     {
         return lines;
     }

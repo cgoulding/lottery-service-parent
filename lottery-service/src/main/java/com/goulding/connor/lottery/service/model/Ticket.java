@@ -5,7 +5,6 @@
 
 package com.goulding.connor.lottery.service.model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,13 +17,13 @@ import java.util.List;
  *
  * @since SINCE-TBD
  */
-public class TicketDto
+public class Ticket
 {
     private final String ticketUuid;
-    private final List<LineDto> lines = new ArrayList<>();
+    private final List<Line> lines = new ArrayList<>();
     private final Date checkedTime;
 
-    public TicketDto(String ticketUuid, List<LineDto> lines, Date checkedTime)
+    public Ticket(String ticketUuid, List<Line> lines, Date checkedTime)
     {
         this.ticketUuid = ticketUuid;
         this.checkedTime = checkedTime;
@@ -39,7 +38,7 @@ public class TicketDto
         return ticketUuid;
     }
 
-    public List<LineDto> getLines()
+    public List<Line> getLines()
     {
         return lines;
     }

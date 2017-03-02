@@ -1,22 +1,7 @@
 package com.goulding.connor.lottery.web.config;
 
-import com.goulding.connor.lottery.service.DefaultLineEvaluationService;
-import com.goulding.connor.lottery.service.DefaultLotteryService;
-import com.goulding.connor.lottery.service.LineEvaluationService;
-import com.goulding.connor.lottery.service.LineGenerationService;
-import com.goulding.connor.lottery.service.LotteryService;
-import com.goulding.connor.lottery.service.RandomLineGenerationService;
-import com.goulding.connor.lottery.service.dao.FileBasedTicketDao;
-import com.goulding.connor.lottery.service.dao.TicketDao;
-import com.goulding.connor.lottery.service.repository.EntityToModelTransformer;
-import com.goulding.connor.lottery.service.repository.ModelToEntityTransformer;
-import com.goulding.connor.lottery.service.repository.PersistedTicketRepository;
-import com.goulding.connor.lottery.service.repository.TicketRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -29,20 +14,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@PropertySources({
-        @PropertySource("classpath:META-INF/spring/lottery-service-web/lottery-service.properties")
-})
-public class LotteryServiceConfig
+public class SwaggerConfig
 {
-
-    @Value("${lottery.service.ticket.dao.file.directory}")
-    private String location;
-
-    @Bean
-    public LotteryService lotteryService() {
-        return new DefaultLotteryService(ticketRepository(), lineGenerationService(), lineEvaluationService());
-    }
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -50,30 +23,6 @@ public class LotteryServiceConfig
                 .apis(RequestHandlerSelectors.basePackage("com.goulding.connor.lottery"))
                 .build()
                 .apiInfo(apiInfo());
-    }
-
-    private TicketRepository ticketRepository() {
-        return new PersistedTicketRepository(lineDao(), dtoToDomainTransformer(), domainToDtoTransformer());
-    }
-
-    private LineGenerationService lineGenerationService() {
-        return new RandomLineGenerationService();
-    }
-
-    private LineEvaluationService lineEvaluationService() {
-        return new DefaultLineEvaluationService();
-    }
-
-    private TicketDao lineDao() {
-        return new FileBasedTicketDao(location);
-    }
-
-    private ModelToEntityTransformer dtoToDomainTransformer() {
-        return new ModelToEntityTransformer();
-    }
-
-    private EntityToModelTransformer domainToDtoTransformer() {
-        return new EntityToModelTransformer();
     }
 
     private ApiInfo apiInfo() {

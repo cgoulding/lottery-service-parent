@@ -5,7 +5,7 @@
 
 package com.goulding.connor.lottery.service;
 
-import com.goulding.connor.lottery.service.model.LineDto;
+import com.goulding.connor.lottery.service.model.Line;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,33 +38,33 @@ public class DefaultEvaluationServiceTest
     @Test
     public void testEvaluateLine()
     {
-        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new LineDto(2, 0, 0)));
-        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new LineDto(0, 2, 0)));
-        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new LineDto(0, 0, 2)));
+        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new Line(2, 0, 0)));
+        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new Line(0, 2, 0)));
+        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new Line(0, 0, 2)));
 
-        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new LineDto(0, 1, 1)));
-        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new LineDto(1, 0, 1)));
-        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new LineDto(1, 1, 0)));
+        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new Line(0, 1, 1)));
+        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new Line(1, 0, 1)));
+        Assert.assertEquals(Integer.valueOf(10), lineEvaluationService.evaluateLine(new Line(1, 1, 0)));
 
-        Assert.assertEquals(Integer.valueOf(5), lineEvaluationService.evaluateLine(new LineDto(0, 0, 0)));
-        Assert.assertEquals(Integer.valueOf(5), lineEvaluationService.evaluateLine(new LineDto(1, 1, 1)));
-        Assert.assertEquals(Integer.valueOf(5), lineEvaluationService.evaluateLine(new LineDto(2, 2, 2)));
+        Assert.assertEquals(Integer.valueOf(5), lineEvaluationService.evaluateLine(new Line(0, 0, 0)));
+        Assert.assertEquals(Integer.valueOf(5), lineEvaluationService.evaluateLine(new Line(1, 1, 1)));
+        Assert.assertEquals(Integer.valueOf(5), lineEvaluationService.evaluateLine(new Line(2, 2, 2)));
 
         // Assert.assertEquals(Integer.valueOf(1), evaluationService.evaluateLine(new LineDto(0, 1, 1))); Ambiguous
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(0, 1, 2)));
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(0, 2, 1)));
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(0, 2, 2)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(0, 1, 2)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(0, 2, 1)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(0, 2, 2)));
 
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(1, 0, 0)));
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(1, 0, 2)));
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(1, 2, 0)));
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(1, 2, 2)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(1, 0, 0)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(1, 0, 2)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(1, 2, 0)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(1, 2, 2)));
 
         // Assert.assertEquals(Integer.valueOf(1), evaluationService.evaluateLine(new LineDto(2, 0, 0))); Ambiguous
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(2, 0, 1)));
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(2, 1, 0)));
-        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new LineDto(2, 1, 1)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(2, 0, 1)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(2, 1, 0)));
+        Assert.assertEquals(Integer.valueOf(1), lineEvaluationService.evaluateLine(new Line(2, 1, 1)));
 
-        Assert.assertEquals(Integer.valueOf(0), lineEvaluationService.evaluateLine(new LineDto(2, 0, 2)));
+        Assert.assertEquals(Integer.valueOf(0), lineEvaluationService.evaluateLine(new Line(2, 0, 2)));
     }
 }

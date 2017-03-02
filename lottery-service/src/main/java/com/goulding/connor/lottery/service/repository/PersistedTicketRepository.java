@@ -1,10 +1,10 @@
 package com.goulding.connor.lottery.service.repository;
 
 import com.goulding.connor.lottery.service.dao.TicketDao;
-import com.goulding.connor.lottery.service.entity.Line;
-import com.goulding.connor.lottery.service.entity.Ticket;
-import com.goulding.connor.lottery.service.model.LineDto;
-import com.goulding.connor.lottery.service.model.TicketDto;
+import com.goulding.connor.lottery.service.entity.LineEntity;
+import com.goulding.connor.lottery.service.entity.TicketEntity;
+import com.goulding.connor.lottery.service.model.Line;
+import com.goulding.connor.lottery.service.model.Ticket;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public class PersistedTicketRepository implements TicketRepository
     }
 
     @Override
-    public List<TicketDto> readAllTickets()
+    public List<Ticket> readAllTickets()
     {
         return ticketDao.readTickets().stream()
                 .map(entityToModelTransformer::transform)
@@ -35,9 +35,9 @@ public class PersistedTicketRepository implements TicketRepository
     }
 
     @Override
-    public TicketDto addTicket(List<LineDto> dtos)
+    public Ticket addTicket(List<Line> ticketLines)
     {
-        List<Line> lines = dtos.stream()
+        List<LineEntity> lines = ticketLines.stream()
                 .map(modelToEntityTransformer::transform)
                 .collect(Collectors.toList());
 
@@ -45,9 +45,9 @@ public class PersistedTicketRepository implements TicketRepository
     }
 
     @Override
-    public TicketDto readTicket(String ticketUuid)
+    public Ticket readTicket(String ticketUuid)
     {
-        Ticket ticket = ticketDao.readTicket(ticketUuid);
+        TicketEntity ticket = ticketDao.readTicket(ticketUuid);
         if (ticket != null)
         {
             return entityToModelTransformer.transform(ticket);
@@ -56,10 +56,10 @@ public class PersistedTicketRepository implements TicketRepository
     }
 
     @Override
-    public TicketDto updateTicket(TicketDto dto)
+    public Ticket updateTicket(Ticket ticket)
     {
-        Ticket entity = modelToEntityTransformer.transform(dto);
-        Ticket updated = ticketDao.updateTicket(entity);
+        TicketEntity entity = modelToEntityTransformer.transform(ticket);
+        TicketEntity updated = ticketDao.updateTicket(entity);
         return entityToModelTransformer.transform(updated);
     }
 }

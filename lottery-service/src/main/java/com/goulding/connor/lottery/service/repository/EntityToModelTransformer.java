@@ -1,9 +1,9 @@
 package com.goulding.connor.lottery.service.repository;
 
-import com.goulding.connor.lottery.service.entity.Line;
-import com.goulding.connor.lottery.service.entity.Ticket;
-import com.goulding.connor.lottery.service.model.LineDto;
-import com.goulding.connor.lottery.service.model.TicketDto;
+import com.goulding.connor.lottery.service.entity.LineEntity;
+import com.goulding.connor.lottery.service.entity.TicketEntity;
+import com.goulding.connor.lottery.service.model.Line;
+import com.goulding.connor.lottery.service.model.Ticket;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 public class EntityToModelTransformer
 {
 
-    public TicketDto transform(final Ticket ticket) {
+    public Ticket transform(final TicketEntity ticket) {
         assert ticket != null;
 
-        List<LineDto> lineDtos = ticket.getLines().stream().map(this::transform).collect(Collectors.toList());
-        return new TicketDto(ticket.getTicketUuid(), lineDtos, ticket.getCheckedTime());
+        List<Line> lines = ticket.getLines().stream().map(this::transform).collect(Collectors.toList());
+        return new Ticket(ticket.getTicketUuid(), lines, ticket.getCheckedTime());
     }
 
-    private LineDto transform(final Line line)
+    private Line transform(final LineEntity line)
     {
-        return new LineDto(line.getNumber1(), line.getNumber2(), line.getNumber3());
+        return new Line(line.getNumber1(), line.getNumber2(), line.getNumber3());
     }
 
 }

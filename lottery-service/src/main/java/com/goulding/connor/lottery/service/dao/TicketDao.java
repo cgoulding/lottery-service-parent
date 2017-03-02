@@ -1,7 +1,7 @@
 package com.goulding.connor.lottery.service.dao;
 
-import com.goulding.connor.lottery.service.entity.Line;
-import com.goulding.connor.lottery.service.entity.Ticket;
+import com.goulding.connor.lottery.service.entity.LineEntity;
+import com.goulding.connor.lottery.service.entity.TicketEntity;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ import java.util.List;
  */
 public interface TicketDao
 {
-    List<Ticket> readTickets();
+    List<TicketEntity> readTickets();
 
-    Ticket createTicket(List<Line> lines);
+    TicketEntity createTicket(List<LineEntity> lines);
 
-    Ticket readTicket(String ticketUuid);
+    TicketEntity readTicket(String ticketUuid);
 
-    Ticket updateTicket(Ticket ticket);
+    TicketEntity updateTicket(TicketEntity ticket);
 }

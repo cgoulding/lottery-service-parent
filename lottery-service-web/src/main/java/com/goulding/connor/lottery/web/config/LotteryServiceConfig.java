@@ -12,33 +12,23 @@ import com.goulding.connor.lottery.service.repository.EntityToModelTransformer;
 import com.goulding.connor.lottery.service.repository.ModelToEntityTransformer;
 import com.goulding.connor.lottery.service.repository.PersistedTicketRepository;
 import com.goulding.connor.lottery.service.repository.TicketRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.UiConfiguration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Created by connor.
  */
 @Configuration
-@EnableSwagger2
-@PropertySources({
-        @PropertySource("classpath:META-INF/spring/lottery-service-web/lottery-service.properties")
-})
+@Import({TicketDaoDevelopmentConfig.class, TicketDaoProductionConfig.class})
 public class LotteryServiceConfig
 {
-
-    @Value("${lottery.service.ticket.dao.file.directory}")
-    private String location;
+    @Autowired
+    private TicketDao ticketDao;
 
     @Bean
     public LotteryService lotteryService() {
@@ -46,39 +36,8 @@ public class LotteryServiceConfig
     }
 
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.goulding.connor.lottery"))
-                .build()
-                .apiInfo(apiInfo());
-    }
-
-    @Bean
-    public UiConfiguration uiConfig() {
-        return new UiConfiguration(
-                "validatorUrl",// url
-                "none",       // docExpansion          => none | list
-                "alpha",      // apiSorter             => alpha
-                "schema",     // defaultModelRendering => schema
-                false,        // enableJsonEditor      => true | false
-                true);        // requestTimeout => in milliseconds, defaults to null (uses jquery xh timeout)
-    }
-
-    private ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo(
-                "Lottery Service REST API",
-                "Minimalistic Lottery Service for some fun.",
-                "1.0",
-                "Terms of service",
-                new Contact("Connor Goulding", "www.goulding.com", "connor@goulding.com"),
-                "Apache License",
-                "http://www.apache.org/licenses/LICENSE-2.0");
-        return apiInfo;
-    }
-
-    private TicketRepository ticketRepository() {
-        return new PersistedTicketRepository(lineDao(), dtoToDomainTransformer(), domainToDtoTransformer());
+    public TicketRepository ticketRepository() {
+        return new PersistedTicketRepository(ticketDao, dtoToDomainTransformer(), domainToDtoTransformer());
     }
 
     private LineGenerationService lineGenerationService() {
@@ -89,10 +48,6 @@ public class LotteryServiceConfig
         return new DefaultLineEvaluationService();
     }
 
-    private TicketDao lineDao() {
-        return new FileBasedTicketDao(location);
-    }
-
     private ModelToEntityTransformer dtoToDomainTransformer() {
         return new ModelToEntityTransformer();
     }
@@ -100,5 +55,4 @@ public class LotteryServiceConfig
     private EntityToModelTransformer domainToDtoTransformer() {
         return new EntityToModelTransformer();
     }
-
 }

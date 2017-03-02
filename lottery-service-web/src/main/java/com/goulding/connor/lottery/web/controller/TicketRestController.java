@@ -1,14 +1,13 @@
 package com.goulding.connor.lottery.web.controller;
 
 import com.goulding.connor.lottery.service.LotteryService;
-import com.goulding.connor.lottery.service.model.TicketDto;
-import com.goulding.connor.lottery.service.model.TicketResultDto;
+import com.goulding.connor.lottery.service.model.Ticket;
+import com.goulding.connor.lottery.service.model.TicketResult;
 import com.goulding.connor.lottery.web.resource.TicketResource;
 import com.goulding.connor.lottery.web.resource.TicketStatusResource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +49,7 @@ public class TicketRestController
     @ApiOperation("Create ticket")
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TicketResource> create(@RequestBody String numberOfLines) {
-        TicketDto ticketDto = lotteryService.generateTicket(Integer.valueOf(numberOfLines));
+        Ticket ticketDto = lotteryService.generateTicket(Integer.valueOf(numberOfLines));
 
         TicketResource resource = createTicketResource(ticketDto);
         return new ResponseEntity<>(resource, HttpStatus.OK);
@@ -59,7 +58,7 @@ public class TicketRestController
     @ApiOperation("Find ticket")
     @RequestMapping(value = "/{ticketUuid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TicketResource> find(@PathVariable(value = "ticketUuid") String ticketUuid) {
-        TicketDto ticketDto = lotteryService.findTicket(ticketUuid);
+        Ticket ticketDto = lotteryService.findTicket(ticketUuid);
         if (ticketDto == null)
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -74,7 +73,7 @@ public class TicketRestController
     public ResponseEntity<TicketResource> ammend(
             @PathVariable(value = "ticketUuid") String ticketUuid,
             @RequestParam(value = "numberOfLines", defaultValue = "1") String numberOfLines) {
-        TicketDto ticketDto = lotteryService.ammendTicket(ticketUuid, Integer.valueOf(numberOfLines));
+        Ticket ticketDto = lotteryService.ammendTicket(ticketUuid, Integer.valueOf(numberOfLines));
         if (ticketDto == null)
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -88,7 +87,7 @@ public class TicketRestController
     @RequestMapping(value = "/{ticketUuid}/check", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TicketStatusResource> check(@PathVariable(value = "ticketUuid") String ticketUuid) {
 
-        TicketResultDto resultDto = lotteryService.checkStatus(ticketUuid);
+        TicketResult resultDto = lotteryService.checkStatus(ticketUuid);
         if (resultDto == null)
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -99,7 +98,7 @@ public class TicketRestController
         return new ResponseEntity(resource, HttpStatus.OK);
     }
 
-    private TicketResource createTicketResource(TicketDto ticketDto)
+    private TicketResource createTicketResource(Ticket ticketDto)
     {
         TicketResource resource = new TicketResource(ticketDto);
         resource.add(linkTo(methodOn(TicketRestController.class).find(ticketDto.getTicketUuid())).withSelfRel());

@@ -5,7 +5,7 @@
 
 package com.goulding.connor.lottery.service;
 
-import com.goulding.connor.lottery.service.model.LineDto;
+import com.goulding.connor.lottery.service.model.Line;
 
 import java.util.stream.IntStream;
 
@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
 public class DefaultLineEvaluationService implements LineEvaluationService
 {
     @Override
-    public Integer evaluateLine(final LineDto line) {
+    public Integer evaluateLine(final Line line) {
         assert line != null;
 
         if (streamOf(line).sum() == 2){
@@ -34,7 +34,7 @@ public class DefaultLineEvaluationService implements LineEvaluationService
         }
     }
 
-    private IntStream streamOf(final LineDto line) {
+    private IntStream streamOf(final Line line) {
         return IntStream.of(line.getNumber1(), line.getNumber2(), line.getNumber3());
     }
 }

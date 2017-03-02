@@ -5,17 +5,17 @@ import java.io.Serializable;
 /**
  * Created by connor.
  */
-public class Line implements Serializable {
+public class LineEntity implements Serializable {
 
     private String  lineUuid;
     private Integer number1;
     private Integer number2;
     private Integer number3;
 
-    public Line() {
+    public LineEntity() {
     }
 
-    public Line(String lineUuid, Integer number1, Integer number2, Integer number3) {
+    public LineEntity(String lineUuid, Integer number1, Integer number2, Integer number3) {
         this.lineUuid = lineUuid;
         this.number1 = number1;
         this.number2 = number2;

@@ -5,7 +5,7 @@
 
 package com.goulding.connor.lottery.service;
 
-import com.goulding.connor.lottery.service.model.LineDto;
+import com.goulding.connor.lottery.service.model.Line;
 
 /**
  * <p>
@@ -17,5 +17,5 @@ import com.goulding.connor.lottery.service.model.LineDto;
  */
 public interface LineEvaluationService
 {
-    Integer evaluateLine(LineDto line);
+    Integer evaluateLine(Line line);
 }

@@ -5,7 +5,7 @@
 
 package com.goulding.connor.lottery.service;
 
-import com.goulding.connor.lottery.service.model.LineDto;
+import com.goulding.connor.lottery.service.model.Line;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.experimental.theories.DataPoints;
@@ -38,23 +38,23 @@ public class RandomLineGenerationServiceTest
     }
 
     @Theory
-    public void testGenerateLine(LineDto line)
+    public void testGenerateLine(Line line)
     {
         numbers(line).stream().map(n -> RANGE.contains(n)).forEach(Assert::assertTrue);
     }
 
     @DataPoints
-    public static LineDto[] generateLines()
+    public static Line[] generateLines()
     {
         // Generate random test lines
-        return new LineDto[]{LINE_GENERATION_SERVICE.generateLine(),
+        return new Line[]{LINE_GENERATION_SERVICE.generateLine(),
                 LINE_GENERATION_SERVICE.generateLine(),
                 LINE_GENERATION_SERVICE.generateLine(),
                 LINE_GENERATION_SERVICE.generateLine(),
                 LINE_GENERATION_SERVICE.generateLine()};
     }
 
-    private Set<Integer> numbers(LineDto line)
+    private Set<Integer> numbers(Line line)
     {
         return new HashSet<>(Arrays.asList(line.getNumber1(), line.getNumber2(), line.getNumber3()));
     }

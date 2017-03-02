@@ -1,7 +1,7 @@
 package com.goulding.connor.lottery.service;
 
-import com.goulding.connor.lottery.service.model.TicketDto;
-import com.goulding.connor.lottery.service.model.TicketResultDto;
+import com.goulding.connor.lottery.service.model.Ticket;
+import com.goulding.connor.lottery.service.model.TicketResult;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ public interface LotteryService
         Once the status of a ticket has been checked it should not be posssible to amend.
          */
 
-    List<TicketDto> readAllTickets();
+    List<Ticket> readAllTickets();
 
-    TicketDto generateTicket(Integer lines);
+    Ticket generateTicket(Integer lines);
 
-    TicketDto findTicket(String ticketUuid);
+    Ticket findTicket(String ticketUuid);
 
-    TicketDto ammendTicket(String ticketUuid, Integer lines);
+    Ticket ammendTicket(String ticketUuid, Integer lines);
 
-    TicketResultDto checkStatus(String ticketUuid);
+    TicketResult checkStatus(String ticketUuid);
 }

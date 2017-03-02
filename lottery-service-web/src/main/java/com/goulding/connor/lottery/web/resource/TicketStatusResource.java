@@ -5,8 +5,8 @@
 
 package com.goulding.connor.lottery.web.resource;
 
-import com.goulding.connor.lottery.service.model.LineResultDto;
-import com.goulding.connor.lottery.service.model.TicketResultDto;
+import com.goulding.connor.lottery.service.model.LineResult;
+import com.goulding.connor.lottery.service.model.TicketResult;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.ArrayList;
@@ -23,9 +23,9 @@ import java.util.List;
 public class TicketStatusResource extends ResourceSupport
 {
     private final String ticketUuid;
-    private final List<LineResultDto> lineResults = new ArrayList<>();
+    private final List<LineResult> lineResults = new ArrayList<>();
 
-    public TicketStatusResource(TicketResultDto ticketResult)
+    public TicketStatusResource(TicketResult ticketResult)
     {
         this.ticketUuid = ticketResult.getTicketUuid();
         if (ticketResult.getLineResults() != null)
@@ -39,7 +39,7 @@ public class TicketStatusResource extends ResourceSupport
         return ticketUuid;
     }
 
-    public List<LineResultDto> getLineResults()
+    public List<LineResult> getLineResults()
     {
         return lineResults;
     }

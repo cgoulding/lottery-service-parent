@@ -1,9 +1,9 @@
 package com.goulding.connor.lottery.service.repository;
 
-import com.goulding.connor.lottery.service.entity.Line;
-import com.goulding.connor.lottery.service.model.LineDto;
-import com.goulding.connor.lottery.service.model.TicketDto;
-import com.goulding.connor.lottery.service.entity.Ticket;
+import com.goulding.connor.lottery.service.entity.LineEntity;
+import com.goulding.connor.lottery.service.model.Line;
+import com.goulding.connor.lottery.service.model.Ticket;
+import com.goulding.connor.lottery.service.entity.TicketEntity;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
  */
 public class ModelToEntityTransformer
 {
-    public Ticket transform(TicketDto dto) {
-        List<Line> lines = dto.getLines().stream().map(this::transform).collect(Collectors.toList());
-        return new Ticket(dto.getTicketUuid(), lines, dto.getCheckedTime());
+    public TicketEntity transform(Ticket ticket) {
+        List<LineEntity> lines = ticket.getLines().stream().map(this::transform).collect(Collectors.toList());
+        return new TicketEntity(ticket.getTicketUuid(), lines, ticket.getCheckedTime());
     }
 
-    public Line transform(LineDto dto) {
-        return new Line(UUID.randomUUID().toString(), dto.getNumber1(), dto.getNumber2(), dto.getNumber3());
+    public LineEntity transform(Line dto) {
+        return new LineEntity(UUID.randomUUID().toString(), dto.getNumber1(), dto.getNumber2(), dto.getNumber3());
     }
 }

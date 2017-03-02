@@ -6,7 +6,6 @@
 package com.goulding.connor.lottery.service.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,17 +17,17 @@ import java.util.List;
  *
  * @since SINCE-TBD
  */
-public class Ticket implements Serializable
+public class TicketEntity implements Serializable
 {
-    private String ticketUuid;
-    private List<Line> lines;
-    private Date checkedTime;
+    private String           ticketUuid;
+    private List<LineEntity> lines;
+    private Date             checkedTime;
 
-    public Ticket()
+    public TicketEntity()
     {
     }
 
-    public Ticket(String ticketUuid, List<Line> lines, Date checkedTime)
+    public TicketEntity(String ticketUuid, List<LineEntity> lines, Date checkedTime)
     {
         this.ticketUuid = ticketUuid;
         this.lines = lines;
@@ -40,12 +39,12 @@ public class Ticket implements Serializable
         return ticketUuid;
     }
 
-    public List<Line> getLines()
+    public List<LineEntity> getLines()
     {
         return lines;
     }
 
-    public void setLines(List<Line> lines)
+    public void setLines(List<LineEntity> lines)
     {
         this.lines = lines;
     }
