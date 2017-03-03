@@ -1,6 +1,5 @@
 package com.goulding.connor.lottery.service.repository;
 
-import com.goulding.connor.lottery.service.entity.LineEntity;
 import com.goulding.connor.lottery.service.entity.TicketEntity;
 import com.goulding.connor.lottery.service.model.Line;
 import com.goulding.connor.lottery.service.model.Ticket;
