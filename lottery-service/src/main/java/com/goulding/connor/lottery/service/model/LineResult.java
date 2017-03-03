@@ -1,8 +1,3 @@
-/**
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- */
-
 package com.goulding.connor.lottery.service.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;

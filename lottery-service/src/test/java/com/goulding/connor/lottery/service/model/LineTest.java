@@ -1,8 +1,3 @@
-/**
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- */
-
 package com.goulding.connor.lottery.service.model;
 
 import org.junit.Assert;
@@ -11,12 +6,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 /**
- * <p>
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- * </p>
- *
- * @since SINCE-TBD
+ * @author Connor Goulding
  */
 public class LineTest {
     @Test
