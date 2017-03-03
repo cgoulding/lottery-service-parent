@@ -37,8 +37,6 @@ docker run -it -p 8080:8080 registry.local.dev/lottery-service:0.0.1-SNAPSHOT
 
 * **Connor Goulding** - *Initial work* - (https://github.com/cgoulding)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
 ## License
 
 http://www.apache.org/licenses/LICENSE-2.0
