@@ -15,6 +15,14 @@ public class LineResult {
     private final Line line;
     private final Integer result;
 
+    /**
+     * Default constructor for immutable class
+     *
+     * Json annotations are for the purposes of serialisation
+     *
+     * @param line
+     * @param result
+     */
     @JsonCreator
     public LineResult(@JsonProperty("line") Line line, @JsonProperty("result") Integer result) {
         this.line = line;

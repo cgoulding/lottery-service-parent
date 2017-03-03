@@ -2,7 +2,7 @@ package com.goulding.connor.lottery.service.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.goulding.connor.lottery.service.LottoServiceException;
+import com.goulding.connor.lottery.service.LotteryServiceException;
 import com.goulding.connor.lottery.service.entity.LineEntity;
 import com.goulding.connor.lottery.service.entity.TicketEntity;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class FileBasedTicketDao implements TicketDao {
     }
 
     /**
-     * Constructore with specified directory file
+     * Constructor with specified directory file
      *
      * @param directory - The file reference to the directory to store the files
      */
@@ -55,52 +55,79 @@ public class FileBasedTicketDao implements TicketDao {
         this.objectMapper = createObjectMapper();
     }
 
+    /**
+     * Read tickets from file directory
+     *
+     * @return
+     * @throws LotteryServiceException
+     */
     @Override
-    public List<TicketEntity> readTickets() {
+    public synchronized List<TicketEntity> readTickets() throws LotteryServiceException {
         try {
             return Files.list(Paths.get(directory.toURI())).map(this::transform).collect(Collectors.toList());
         } catch (IOException exception) {
             LOGGER.error("Unable to read ticket from file", exception);
-            throw new LottoServiceException("Unable to write to file", exception);
+            throw new LotteryServiceException("Unable to write to file", exception);
         }
     }
 
+    /**
+     * Create ticket with specified number of lines and save to file in directory
+     *
+     * @param lines
+     * @return
+     * @throws LotteryServiceException
+     */
     @Override
-    public TicketEntity createTicket(List<LineEntity> lines) {
+    public synchronized TicketEntity createTicket(List<LineEntity> lines) throws LotteryServiceException {
         TicketEntity ticket = new TicketEntity(UUID.randomUUID().toString(), lines, null);
         try (FileOutputStream outputStream = new FileOutputStream(directory + File.separator + ticket.getTicketUuid())) {
             objectMapper.writeValue(outputStream, ticket);
         } catch (IOException exception) {
             LOGGER.error("Unable to write to file", exception);
-            throw new LottoServiceException("Unable to write to file", exception);
+            throw new LotteryServiceException("Unable to write to file", exception);
         }
 
         return ticket;
     }
 
+    /**
+     * Read ticket from directory with specified ticketUuid
+     *
+     * @param ticketUuid
+     * @return
+     * @throws LotteryServiceException
+     */
     @Override
-    public TicketEntity readTicket(String ticketUuid) {
+    public synchronized TicketEntity readTicket(String ticketUuid) throws LotteryServiceException {
         File ticketSource = new File(directory + File.separator + ticketUuid);
         if (ticketSource.exists()) {
             try (FileInputStream inputStream = new FileInputStream(directory + File.separator + ticketUuid)) {
                 return objectMapper.readValue(inputStream, TicketEntity.class);
             } catch (IOException exception) {
                 LOGGER.error("Unable to read from file", exception);
-                throw new LottoServiceException("Unable to read from file", exception);
+                throw new LotteryServiceException("Unable to read from file", exception);
             }
         }
         return null;
     }
 
+    /**
+     * Update specified ticket
+     *
+     * @param ticket
+     * @return
+     * @throws LotteryServiceException
+     */
     @Override
-    public TicketEntity updateTicket(TicketEntity ticket) {
+    public synchronized TicketEntity updateTicket(TicketEntity ticket) throws LotteryServiceException {
         assert ticket != null;
 
         try (FileOutputStream outputStream = new FileOutputStream(directory + File.separator + ticket.getTicketUuid())) {
             objectMapper.writeValue(outputStream, ticket);
         } catch (IOException exception) {
             LOGGER.error("Unable to update to file", exception);
-            throw new LottoServiceException("Unable to update to file", exception);
+            throw new LotteryServiceException("Unable to update to file", exception);
         }
         return ticket;
     }
@@ -113,12 +140,12 @@ public class FileBasedTicketDao implements TicketDao {
         return objectMapper;
     }
 
-    private TicketEntity transform(Path path) {
+    private TicketEntity transform(Path path) throws LotteryServiceException {
         try {
             return objectMapper.readValue(path.toFile(), TicketEntity.class);
         } catch (IOException exception) {
             LOGGER.error("Unable to read ticket from file", exception);
-            throw new LottoServiceException("Unable to write to file", exception);
+            throw new LotteryServiceException("Unable to write to file", exception);
         }
     }
 }

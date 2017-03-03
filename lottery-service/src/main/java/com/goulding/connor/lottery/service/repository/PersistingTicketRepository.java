@@ -25,6 +25,11 @@ public class PersistingTicketRepository implements TicketRepository {
         this.entityToModelTransformer = entityToModelTransformer;
     }
 
+    /**
+     * Read all tickets
+     *
+     * @return
+     */
     @Override
     public List<Ticket> readAllTickets() {
         return ticketDao.readTickets().stream()
@@ -32,6 +37,12 @@ public class PersistingTicketRepository implements TicketRepository {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Create ticket with specified number of lines
+     *
+     * @param ticketLines
+     * @return
+     */
     @Override
     public Ticket addTicket(List<Line> ticketLines) {
         List<LineEntity> lines = ticketLines.stream()
@@ -41,6 +52,12 @@ public class PersistingTicketRepository implements TicketRepository {
         return entityToModelTransformer.transform(ticketDao.createTicket(lines));
     }
 
+    /**
+     * Read ticket
+     *
+     * @param ticketUuid
+     * @return
+     */
     @Override
     public Ticket readTicket(String ticketUuid) {
         TicketEntity ticket = ticketDao.readTicket(ticketUuid);
@@ -50,6 +67,12 @@ public class PersistingTicketRepository implements TicketRepository {
         return null;
     }
 
+    /**
+     * Update ticket
+     *
+     * @param ticket
+     * @return
+     */
     @Override
     public Ticket updateTicket(Ticket ticket) {
         TicketEntity entity = modelToEntityTransformer.transform(ticket);

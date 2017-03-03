@@ -1,6 +1,7 @@
 package com.goulding.connor.lottery.web.controller;
 
 import com.goulding.connor.lottery.service.LotteryService;
+import com.goulding.connor.lottery.service.LotteryServiceException;
 import com.goulding.connor.lottery.service.model.Ticket;
 import com.goulding.connor.lottery.service.model.TicketResult;
 import com.goulding.connor.lottery.web.resource.TicketResource;
@@ -97,7 +98,7 @@ public class TicketRestController {
         }
 
         TicketStatusResource resource = new TicketStatusResource(result);
-        resource.add(linkTo(methodOn(TicketRestController.class).find(ticketUuid)).withSelfRel());
+        resource.add(linkTo(methodOn(TicketRestController.class).find(ticketUuid)).withRel("ticket"));
         return new ResponseEntity(resource, HttpStatus.ACCEPTED);
     }
 

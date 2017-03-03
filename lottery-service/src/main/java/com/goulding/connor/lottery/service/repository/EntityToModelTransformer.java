@@ -1,5 +1,6 @@
 package com.goulding.connor.lottery.service.repository;
 
+import com.goulding.connor.lottery.service.LotteryServiceException;
 import com.goulding.connor.lottery.service.entity.LineEntity;
 import com.goulding.connor.lottery.service.entity.TicketEntity;
 import com.goulding.connor.lottery.service.model.Line;
@@ -31,7 +32,14 @@ public class EntityToModelTransformer {
     }
 
     private Line transform(final LineEntity line) {
-        return new Line(line.getNumber1(), line.getNumber2(), line.getNumber3());
+        return new Line(line.getLineUuid(), validate(line.getNumber1()), validate(line.getNumber2()),
+                validate(line.getNumber3()));
     }
 
+    private Integer validate(Integer number) throws LotteryServiceException {
+        if (number == null || number < 0 || number > 2) {
+            throw new LotteryServiceException("Line number not in range", new Throwable());
+        }
+        return number;
+    }
 }

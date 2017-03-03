@@ -3,7 +3,7 @@ package com.goulding.connor.lottery.service;
 /**
  * @author Connor Goulding
  */
-public class LottoServiceException extends IllegalStateException {
+public class LotteryServiceException extends IllegalStateException {
 
     /**
      * Default service runtime exception if an illegal / unknown state is reached
@@ -11,7 +11,7 @@ public class LottoServiceException extends IllegalStateException {
      * @param message
      * @param cause
      */
-    public LottoServiceException(String message, Throwable cause) {
+    public LotteryServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 }

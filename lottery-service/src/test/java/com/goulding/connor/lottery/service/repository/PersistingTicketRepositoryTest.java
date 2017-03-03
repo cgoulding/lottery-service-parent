@@ -62,7 +62,8 @@ public class PersistingTicketRepositoryTest {
         TicketEntity expectedTicket = new TicketEntity(uuid, Arrays.asList(new LineEntity("lineUuid", 0, 1, 2)), now);
 
         Mockito.when(ticketDao.updateTicket(Mockito.any())).thenReturn(expectedTicket);
-        Ticket updated = ticketRepository.updateTicket(new Ticket(uuid, Arrays.asList(new Line(0, 1, 2)), now));
+        Ticket updated = ticketRepository.updateTicket(new Ticket(uuid, Arrays.asList(
+                new Line(UUID.randomUUID().toString(), 0, 1, 2)), now));
         Mockito.verify(ticketDao, Mockito.times(1)).updateTicket(Mockito.any());
 
         Assert.assertEquals(expectedTicket.getTicketUuid(), updated.getTicketUuid());

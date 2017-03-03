@@ -1,5 +1,6 @@
 package com.goulding.connor.lottery.service.repository;
 
+import com.goulding.connor.lottery.service.LotteryServiceException;
 import com.goulding.connor.lottery.service.entity.LineEntity;
 import com.goulding.connor.lottery.service.entity.TicketEntity;
 import com.goulding.connor.lottery.service.model.Ticket;
@@ -33,6 +34,27 @@ public class EntityToModelTransformerTest {
         Assert.assertNotNull(ticket);
         Assert.assertNull(ticket.getTicketUuid());
         Assert.assertEquals(0, ticket.getLines().size());
+    }
+
+    @Test(expected = LotteryServiceException.class)
+    public void testTransformInvalidNumber1() {
+        TicketEntity ticketEntity = new TicketEntity("ticketUuid",
+                Arrays.asList(new LineEntity("lineUuid", -1, 0, 0)), Calendar.getInstance().getTime());
+        transformer.transform(ticketEntity);
+    }
+
+    @Test(expected = LotteryServiceException.class)
+    public void testTransformInvalidNumber2() {
+        TicketEntity ticketEntity = new TicketEntity("ticketUuid",
+                Arrays.asList(new LineEntity("lineUuid", 0, 3, 0)), Calendar.getInstance().getTime());
+        transformer.transform(ticketEntity);
+    }
+
+    @Test(expected = LotteryServiceException.class)
+    public void testTransformInvalidNumber3() {
+        TicketEntity ticketEntity = new TicketEntity("ticketUuid",
+                Arrays.asList(new LineEntity("lineUuid", 0, 0, 99)), Calendar.getInstance().getTime());
+        transformer.transform(ticketEntity);
     }
 
     @Test

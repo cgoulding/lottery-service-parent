@@ -8,4 +8,5 @@ public class LotteryServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(LotteryServiceApplication.class, args);
     }
+
 }

@@ -21,7 +21,7 @@ public class TicketTest {
     public void testNotNulls() {
         String expectedTicketUuid = UUID.randomUUID().toString();
         Date expectedCheckedDate = Calendar.getInstance().getTime();
-        Line expectedLine = new Line(0, 1, 2);
+        Line expectedLine = new Line(uuid(), 0, 1, 2);
 
         Ticket ticket = new Ticket(expectedTicketUuid, Arrays.asList(expectedLine), expectedCheckedDate);
         Assert.assertSame(expectedTicketUuid, ticket.getTicketUuid());
@@ -46,5 +46,9 @@ public class TicketTest {
                 new Ticket("uuid1", new ArrayList<>(), now).hashCode()); // Random equals check
         Assert.assertFalse(new Ticket("uuid1", new ArrayList<>(), now).hashCode() ==
                 new Ticket("uuid2", new ArrayList<>(), now).hashCode());
+    }
+
+    private String uuid() {
+        return UUID.randomUUID().toString();
     }
 }

@@ -24,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,9 +53,11 @@ public class TicketRestControllerTest {
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        this.initialUncheckedTicket = this.ticketRepository.addTicket(Arrays.asList(new Line(0, 1, 2)));
+        this.initialUncheckedTicket = this.ticketRepository.addTicket(Arrays.asList(
+                new Line(UUID.randomUUID().toString(), 0, 1, 2)));
 
-        Ticket added = this.ticketRepository.addTicket(Arrays.asList(new Line(0, 1, 2)));
+        Ticket added = this.ticketRepository.addTicket(Arrays.asList(
+                new Line(UUID.randomUUID().toString(), 0, 1, 2)));
         Ticket checked = new Ticket(added.getTicketUuid(), added.getLines(), Calendar.getInstance().getTime());
         this.initialCheckedTicket = this.ticketRepository.updateTicket(checked);
     }

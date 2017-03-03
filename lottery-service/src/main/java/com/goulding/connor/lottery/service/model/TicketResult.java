@@ -13,6 +13,14 @@ public class TicketResult {
     private final String ticketUuid;
     private final List<LineResult> lineResults = new ArrayList<>();
 
+    /**
+     * Default constructor for immutable class
+     *
+     * Json annotations are for the purposes of serialisation
+     *
+     * @param ticketUuid
+     * @param lineResults
+     */
     @JsonCreator
     public TicketResult(@JsonProperty("ticketUuid") String ticketUuid, @JsonProperty("lineResults") List<LineResult> lineResults) {
         this.ticketUuid = ticketUuid;

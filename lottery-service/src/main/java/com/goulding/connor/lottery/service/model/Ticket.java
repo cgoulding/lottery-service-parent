@@ -15,6 +15,15 @@ public class Ticket {
     private final List<Line> lines = new ArrayList<>();
     private final Date checkedTime;
 
+    /**
+     * Default constructor for immutable class
+     *
+     * Json annotations are for the purposes of serialisation
+     *
+     * @param ticketUuid
+     * @param lines
+     * @param checkedTime
+     */
     @JsonCreator
     public Ticket(@JsonProperty("ticketUuid") String ticketUuid, @JsonProperty("lines") List<Line> lines,
                   @JsonProperty("checkedTime") Date checkedTime) {

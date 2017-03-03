@@ -19,7 +19,7 @@ public class TicketDaoDevelopmentConfig {
     }
 
     private File createTemporaryDirectory() throws IOException {
-        File file = File.createTempFile("TicketDaoTestConfig-", null);
+        File file = File.createTempFile("FileBasedTicketDao-", null);
         file.delete();
         file.mkdirs();
         file.deleteOnExit();

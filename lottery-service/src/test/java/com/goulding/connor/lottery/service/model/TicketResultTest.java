@@ -20,9 +20,13 @@ public class TicketResultTest {
     @Test
     public void testNotNulls() {
         String ticketUuid = UUID.randomUUID().toString();
-        LineResult lineResult = new LineResult(new Line(0, 1, 2), 9);
+        LineResult lineResult = new LineResult(new Line(uuid(), 0, 1, 2), 9);
         TicketResult ticketResult = new TicketResult(ticketUuid, Arrays.asList(lineResult));
         Assert.assertEquals(ticketUuid, ticketResult.getTicketUuid());
         Assert.assertEquals(1, ticketResult.getLineResults().size());
+    }
+
+    private String uuid() {
+        return UUID.randomUUID().toString();
     }
 }

@@ -37,7 +37,7 @@ public class ModelToEntityTransformerTest {
     @Test
     public void testTransform() {
         Ticket ticket = new Ticket("ticketUuid",
-                Arrays.asList(new Line(0, 1, 2)), Calendar.getInstance().getTime());
+                Arrays.asList(new Line("lineUuid", 0, 1, 2)), Calendar.getInstance().getTime());
 
         TicketEntity ticketEntity = transformer.transform(ticket);
         Assert.assertEquals(ticket.getTicketUuid(), ticketEntity.getTicketUuid());

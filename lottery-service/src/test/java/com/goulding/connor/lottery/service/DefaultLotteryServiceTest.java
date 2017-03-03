@@ -20,6 +20,7 @@ import static org.mockito.Matchers.any;
  * @author Connor Goulding
  */
 public class DefaultLotteryServiceTest {
+
     /*
     You have a series of lines on a ticket with 3 numbers, each of which has a value of 0, 1, or 2.
     For each ticket if the sum of the values is 2, the result is 10.
@@ -43,7 +44,7 @@ public class DefaultLotteryServiceTest {
 
     @Test
     public void testGenerateTicket() {
-        Ticket expected = new Ticket(UUID.randomUUID().toString(), Arrays.asList(new Line(0, 0, 0)), null);
+        Ticket expected = new Ticket(uuid(), Arrays.asList(new Line(uuid(), 0, 0, 0)), null);
         Mockito.when(ticketRepository.addTicket(Mockito.any())).thenReturn(expected);
         Ticket generated = lotteryService.generateTicket(1);
         Mockito.verify(ticketRepository, Mockito.times(1)).addTicket(Mockito.any());
@@ -53,8 +54,9 @@ public class DefaultLotteryServiceTest {
 
     @Test
     public void testAmmendTicket() {
-        Ticket original = new Ticket(UUID.randomUUID().toString(), Arrays.asList(new Line(0, 0, 0)), null);
-        Ticket updated = new Ticket(original.getTicketUuid(), Arrays.asList(new Line(0, 0, 0), new Line(1, 1, 1)), null);
+        Ticket original = new Ticket(uuid(), Arrays.asList(new Line(uuid(), 0, 0, 0)), null);
+        Ticket updated = new Ticket(original.getTicketUuid(), Arrays.asList(new Line(uuid(), 0, 0, 0),
+                new Line(uuid(), 1, 1, 1)), null);
 
         Mockito.when(ticketRepository.readTicket(original.getTicketUuid())).thenReturn(original);
         Mockito.when(ticketRepository.updateTicket(any())).thenReturn(updated);
@@ -73,8 +75,9 @@ public class DefaultLotteryServiceTest {
     public void testCheckStatus() {
         Date expectedCheckedDate = Calendar.getInstance().getTime();
 
-        Ticket notChecked = new Ticket(UUID.randomUUID().toString(), Arrays.asList(new Line(0, 0, 0)), null);
-        Ticket checked = new Ticket(notChecked.getTicketUuid(), Arrays.asList(new Line(0, 0, 0)), expectedCheckedDate);
+        Ticket notChecked = new Ticket(uuid(), Arrays.asList(new Line(uuid(), 0, 0, 0)), null);
+        Ticket checked = new Ticket(notChecked.getTicketUuid(), Arrays.asList(new Line(uuid(), 0, 0, 0)),
+                expectedCheckedDate);
 
         Mockito.when(ticketRepository.readTicket(notChecked.getTicketUuid())).thenReturn(notChecked);
         Mockito.when(ticketRepository.updateTicket(any())).thenReturn(checked);
@@ -94,5 +97,9 @@ public class DefaultLotteryServiceTest {
         Assert.assertEquals(line1.getNumber1(), line2.getNumber1());
         Assert.assertEquals(line1.getNumber2(), line2.getNumber2());
         Assert.assertEquals(line1.getNumber3(), line2.getNumber3());
+    }
+
+    private String uuid() {
+        return UUID.randomUUID().toString();
     }
 }

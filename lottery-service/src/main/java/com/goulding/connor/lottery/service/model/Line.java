@@ -7,13 +7,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Connor Goulding
  */
 public class Line {
+    private final String lineUuid;
     private final Integer number1;
     private final Integer number2;
     private final Integer number3;
 
+    /**
+     * Default constructor for immutable class
+     *
+     * Json annotations are for the purposes of serialisation
+     *
+     * @param lineUuid
+     * @param number1
+     * @param number2
+     * @param number3
+     */
     @JsonCreator
-    public Line(@JsonProperty("number1") Integer number1, @JsonProperty("number2") Integer number2,
+    public Line(@JsonProperty("lineUuid") String lineUuid, @JsonProperty("number1") Integer number1, @JsonProperty("number2") Integer number2,
                 @JsonProperty("number3") Integer number3) {
+        this.lineUuid = lineUuid;
         this.number1 = number1;
         this.number2 = number2;
         this.number3 = number3;
@@ -29,6 +41,10 @@ public class Line {
 
     public Integer getNumber3() {
         return number3;
+    }
+
+    public String getLineUuid() {
+        return lineUuid;
     }
 
     @Override

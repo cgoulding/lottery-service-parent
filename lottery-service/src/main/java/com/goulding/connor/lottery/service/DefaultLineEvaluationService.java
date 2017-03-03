@@ -8,6 +8,13 @@ import java.util.stream.IntStream;
  * @author Connor Goulding
  */
 public class DefaultLineEvaluationService implements LineEvaluationService {
+
+    /**
+     * Evaluate line
+     *
+     * @param line
+     * @return
+     */
     @Override
     public Integer evaluateLine(final Line line) {
         assert line != null;
