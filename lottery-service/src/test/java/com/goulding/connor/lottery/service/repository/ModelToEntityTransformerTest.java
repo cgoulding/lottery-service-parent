@@ -32,7 +32,7 @@ public class ModelToEntityTransformerTest {
         TicketEntity ticket = transformer.transform(new Ticket(null, null, null));
         Assert.assertNotNull(ticket);
         Assert.assertNull(ticket.getTicketUuid());
-        Assert.assertNull(ticket.getLines());
+        Assert.assertEquals(0, ticket.getLines().size());
     }
 
     @Test

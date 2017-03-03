@@ -24,9 +24,9 @@ public class ModelToEntityTransformer {
     public TicketEntity transform(Ticket ticket) {
         assert ticket != null;
 
-        List<LineEntity> lines = new ArrayList<>();
+        List<LineEntity> lines = null;
         if (ticket.getLines() != null) {
-            lines.addAll(ticket.getLines().stream().map(this::transform).collect(Collectors.toList()));
+            lines = ticket.getLines().stream().map(this::transform).collect(Collectors.toList());
         }
         return new TicketEntity(ticket.getTicketUuid(), lines, ticket.getCheckedTime());
     }
