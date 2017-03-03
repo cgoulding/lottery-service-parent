@@ -13,10 +13,9 @@ import java.util.Arrays;
 import java.util.UUID;
 
 /**
- * Created by connor.
+ * @author Connor Goulding
  */
-public class FileBasedTicketDaoTest
-{
+public class FileBasedTicketDaoTest {
     private TicketDao ticketDao;
 
     @Before
@@ -101,8 +100,7 @@ public class FileBasedTicketDaoTest
         Assert.assertEquals(updated.getLines().get(1).getNumber1(), Integer.valueOf(2));
     }
 
-    private File createTestDirectory() throws IOException
-    {
+    private File createTestDirectory() throws IOException {
         File file = File.createTempFile("FileBasedTicketDaoTest-", null);
         file.delete();
         file.mkdirs();

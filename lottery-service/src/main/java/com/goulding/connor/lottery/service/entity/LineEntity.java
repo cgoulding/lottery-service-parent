@@ -3,11 +3,11 @@ package com.goulding.connor.lottery.service.entity;
 import java.io.Serializable;
 
 /**
- * Created by connor.
+ * @author Connor Goulding
  */
 public class LineEntity implements Serializable {
 
-    private String  lineUuid;
+    private String lineUuid;
     private Integer number1;
     private Integer number2;
     private Integer number3;
@@ -24,6 +24,10 @@ public class LineEntity implements Serializable {
 
     public String getLineUuid() {
         return lineUuid;
+    }
+
+    public void setLineUuid(String lineUuid) {
+        this.lineUuid = lineUuid;
     }
 
     public Integer getNumber1() {

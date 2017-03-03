@@ -1,16 +1,19 @@
 package com.goulding.connor.lottery.service.model;
 
-/**
- * Created by connor.
- */
-public class Line
-{
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author Connor Goulding
+ */
+public class Line {
     private final Integer number1;
     private final Integer number2;
     private final Integer number3;
 
-    public Line(Integer number1, Integer number2, Integer number3) {
+    @JsonCreator
+    public Line(@JsonProperty("number1") Integer number1, @JsonProperty("number2") Integer number2,
+                @JsonProperty("number3") Integer number3) {
         this.number1 = number1;
         this.number2 = number2;
         this.number3 = number3;
@@ -26,5 +29,29 @@ public class Line
 
     public Integer getNumber3() {
         return number3;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Line line = (Line) o;
+
+        if (number1 != null ? !number1.equals(line.number1) : line.number1 != null)
+            return false;
+        if (number2 != null ? !number2.equals(line.number2) : line.number2 != null)
+            return false;
+        return number3 != null ? number3.equals(line.number3) : line.number3 == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = number1 != null ? number1.hashCode() : 0;
+        result = 31 * result + (number2 != null ? number2.hashCode() : 0);
+        result = 31 * result + (number3 != null ? number3.hashCode() : 0);
+        return result;
     }
 }

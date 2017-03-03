@@ -1,50 +1,64 @@
-/**
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- */
-
 package com.goulding.connor.lottery.service.model;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * <p>
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- * </p>
- *
- * @since SINCE-TBD
+ * @author Connor Goulding
  */
-public class Ticket
-{
+public class Ticket {
     private final String ticketUuid;
     private final List<Line> lines = new ArrayList<>();
     private final Date checkedTime;
 
-    public Ticket(String ticketUuid, List<Line> lines, Date checkedTime)
-    {
+    @JsonCreator
+    public Ticket(@JsonProperty("ticketUuid") String ticketUuid, @JsonProperty("lines") List<Line> lines,
+                  @JsonProperty("checkedTime") Date checkedTime) {
         this.ticketUuid = ticketUuid;
         this.checkedTime = checkedTime;
-        if (lines != null)
-        {
+        if (lines != null) {
             this.lines.addAll(lines);
         }
     }
 
-    public String getTicketUuid()
-    {
+    public String getTicketUuid() {
         return ticketUuid;
     }
 
-    public List<Line> getLines()
-    {
+    public List<Line> getLines() {
         return lines;
     }
 
-    public Date getCheckedTime()
-    {
+    public Date getCheckedTime() {
         return checkedTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Ticket ticket = (Ticket) o;
+
+        if (ticketUuid != null ? !ticketUuid.equals(ticket.ticketUuid) : ticket.ticketUuid != null)
+            return false;
+        if (lines != null ? !lines.equals(ticket.lines) : ticket.lines != null)
+            return false;
+        return checkedTime != null ? checkedTime.equals(ticket.checkedTime) : ticket.checkedTime == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ticketUuid != null ? ticketUuid.hashCode() : 0;
+        result = 31 * result + (lines != null ? lines.hashCode() : 0);
+        result = 31 * result + (checkedTime != null ? checkedTime.hashCode() : 0);
+        return result;
     }
 }

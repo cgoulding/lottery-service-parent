@@ -5,4 +5,4 @@ WORKDIR /
 
 COPY target/dependency/lib/* lib/
 
-CMD java -jar lib/lottery-service-web-0.0.1-SNAPSHOT-exec.jar
+CMD java -jar lib/lottery-service-web-0.0.1-SNAPSHOT.jar

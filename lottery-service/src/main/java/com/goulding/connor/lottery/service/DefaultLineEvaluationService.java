@@ -1,8 +1,3 @@
-/**
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- */
-
 package com.goulding.connor.lottery.service;
 
 import com.goulding.connor.lottery.service.model.Line;
@@ -10,27 +5,21 @@ import com.goulding.connor.lottery.service.model.Line;
 import java.util.stream.IntStream;
 
 /**
- * <p>
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- * </p>
- *
- * @since SINCE-TBD
+ * @author Connor Goulding
  */
-public class DefaultLineEvaluationService implements LineEvaluationService
-{
+public class DefaultLineEvaluationService implements LineEvaluationService {
     @Override
     public Integer evaluateLine(final Line line) {
         assert line != null;
 
-        if (streamOf(line).sum() == 2){
-            return 10;
+        if (streamOf(line).sum() == 2) {
+            return SUM_OF_TWO;
         } else if (streamOf(line).distinct().count() == 1) {
-            return 5;
+            return ALL_EQUAL;
         } else if (line.getNumber1() != line.getNumber2() && line.getNumber1() != line.getNumber3()) {
-            return 1;
+            return FIRST_IS_DIFFERENT;
         } else {
-            return 0;
+            return OTHERWISE;
         }
     }
 

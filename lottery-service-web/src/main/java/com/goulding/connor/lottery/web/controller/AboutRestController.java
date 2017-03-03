@@ -15,18 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by connor.
+ * @author Connor Goulding
  */
 @Api("Lottery Service API")
 @RestController
-@RequestMapping(path = "/")
-public class ApiRestController
-{
-    @ApiOperation("Lottery Service API Documentation")
+@RequestMapping(path = "/about")
+public class AboutRestController {
+    @ApiOperation("Lottery Service API About")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<ApiResource> api(HttpServletRequest request) {
         ApiResource resource = new ApiResource();
-        resource.add(new Link(request.getRequestURL().toString() + "swagger-resources", "documentation"));
+        resource.add(new Link("/swagger-resources", "documentation"));
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 }

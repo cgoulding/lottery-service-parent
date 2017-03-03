@@ -12,58 +12,50 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by connor.
+ * @author Connor Goulding
  */
-public class DefaultLotteryService implements LotteryService
-{
-    private final TicketRepository      ticketRepository;
+public class DefaultLotteryService implements LotteryService {
+    private final TicketRepository ticketRepository;
     private final LineGenerationService lineGenerationService;
     private final LineEvaluationService lineEvaluationService;
 
     public DefaultLotteryService(final TicketRepository ticketRepository, final LineGenerationService lineGenerationService,
-            final LineEvaluationService lineEvaluationService)
-    {
+                                 final LineEvaluationService lineEvaluationService) {
         this.ticketRepository = ticketRepository;
         this.lineGenerationService = lineGenerationService;
         this.lineEvaluationService = lineEvaluationService;
     }
 
     @Override
-    public Ticket findTicket(String ticketUuid)
-    {
+    public Ticket findTicket(String ticketUuid) {
         return ticketRepository.readTicket(ticketUuid);
     }
 
     @Override
-    public List<Ticket> readAllTickets()
-    {
+    public List<Ticket> readAllTickets() {
         return ticketRepository.readAllTickets();
     }
 
     @Override
-    public Ticket generateTicket(Integer numberOfLines)
-    {
+    public Ticket generateTicket(Integer numberOfLines) {
         List<Line> lines = new ArrayList<>();
-        for (int i = 0; i < numberOfLines; i++)
-        {
+        for (int i = 0; i < numberOfLines; i++) {
             lines.add(lineGenerationService.generateLine());
         }
         return ticketRepository.addTicket(lines);
     }
 
     @Override
-    public TicketResult checkStatus(String ticketUuid)
-    {
+    public TicketResult checkStatus(String ticketUuid) {
         Ticket existing = ticketRepository.readTicket(ticketUuid);
-        if (existing == null)
-        {
+        if (existing == null) {
             return null;
         }
 
         Ticket checked = new Ticket(existing.getTicketUuid(), existing.getLines(), Calendar.getInstance().getTime());
-        ticketRepository.updateTicket(checked);
+        checked = ticketRepository.updateTicket(checked);
 
-        List<LineResult> lineResults = existing.getLines().stream()
+        List<LineResult> lineResults = checked.getLines().stream()
                 .map(this::evaluate)
                 .collect(Collectors.toList());
 
@@ -71,11 +63,9 @@ public class DefaultLotteryService implements LotteryService
     }
 
     @Override
-    public Ticket ammendTicket(String ticketUuid, Integer numberOfLines)
-    {
+    public Ticket ammendTicket(String ticketUuid, Integer numberOfLines) {
         Ticket existing = ticketRepository.readTicket(ticketUuid);
-        if (existing == null)
-        {
+        if (existing == null) {
             return null;
         }
 
@@ -84,17 +74,15 @@ public class DefaultLotteryService implements LotteryService
 
         // Only allow ammend if ticket has not already been checked
         if (existing.getCheckedTime() == null) {
-            for (int i = 0; i < numberOfLines; i++)
-            {
+            for (int i = 0; i < numberOfLines; i++) {
                 newLines.add(lineGenerationService.generateLine());
             }
         }
 
-        return ticketRepository.updateTicket(new Ticket(existing.getTicketUuid(), newLines, null));
+        return ticketRepository.updateTicket(new Ticket(existing.getTicketUuid(), newLines, existing.getCheckedTime()));
     }
 
-    private LineResult evaluate(Line line)
-    {
+    private LineResult evaluate(Line line) {
         Integer evaluation = lineEvaluationService.evaluateLine(line);
         return new LineResult(line, evaluation);
     }

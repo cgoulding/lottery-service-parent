@@ -1,22 +1,17 @@
-/**
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- */
-
 package com.goulding.connor.lottery.service;
 
 /**
- * <p>
- * &copy; 2017 VCE Company, LLC. All rights reserved.
- * VCE Confidential/Proprietary Information
- * </p>
- *
- * @since SINCE-TBD
+ * @author Connor Goulding
  */
-public class LottoServiceException extends IllegalStateException
-{
-    public LottoServiceException(String message, Throwable cause)
-    {
+public class LottoServiceException extends IllegalStateException {
+
+    /**
+     * Default service runtime exception if an illegal / unknown state is reached
+     *
+     * @param message
+     * @param cause
+     */
+    public LottoServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 }
