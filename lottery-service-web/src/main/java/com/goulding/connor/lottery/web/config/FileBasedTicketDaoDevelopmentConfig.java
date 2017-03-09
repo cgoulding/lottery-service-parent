@@ -11,8 +11,8 @@ import java.io.IOException;
 /**
  * @author Connor Goulding
  */
-@Profile("development")
-public class TicketDaoDevelopmentConfig {
+@Profile({"development-filebased"})
+public class FileBasedTicketDaoDevelopmentConfig {
     @Bean
     public TicketDao ticketDao() throws IOException {
         return new FileBasedTicketDao(createTemporaryDirectory());

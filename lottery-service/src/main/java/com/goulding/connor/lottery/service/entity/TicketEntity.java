@@ -1,15 +1,26 @@
 package com.goulding.connor.lottery.service.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
  * @author Connor Goulding
  */
+@Entity
+@Table(name = "TICKET")
 public class TicketEntity implements Serializable {
+
+    @Id
+    @Column(name = "TICKET_UUID")
     private String ticketUuid;
+
+    @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LineEntity> lines;
+
+    @Column(name = "CHECKED_TIME")
     private Date checkedTime;
 
     public TicketEntity() {
@@ -17,6 +28,9 @@ public class TicketEntity implements Serializable {
 
     public TicketEntity(String ticketUuid, List<LineEntity> lines, Date checkedTime) {
         this.ticketUuid = ticketUuid;
+        if (lines != null) {
+            lines.forEach(this::addLine);
+        }
         this.lines = lines;
         this.checkedTime = checkedTime;
     }
@@ -43,5 +57,16 @@ public class TicketEntity implements Serializable {
 
     public void setCheckedTime(Date checkedTime) {
         this.checkedTime = checkedTime;
+    }
+
+    public void addLine(LineEntity line) {
+        if (lines == null) {
+            this.lines = new ArrayList<>();
+        }
+
+        if (line != null) {
+            line.setTicket(this);
+            lines.add(line);
+        }
     }
 }

@@ -12,6 +12,7 @@ public interface TicketRepository {
 
     /**
      * Read all tickets
+     *
      * @return
      */
     List<Ticket> readAllTickets();

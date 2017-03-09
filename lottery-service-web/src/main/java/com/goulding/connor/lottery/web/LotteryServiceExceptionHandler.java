@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LotteryServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({LotteryServiceException.class})
+    @ExceptionHandler({LotteryServiceException.class, AssertionError.class})
     public ResponseEntity<Object> badRequest(HttpServletRequest req, Exception exception) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

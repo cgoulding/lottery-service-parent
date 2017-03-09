@@ -1,16 +1,31 @@
 package com.goulding.connor.lottery.service.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * @author Connor Goulding
  */
+@Entity
+@Table(name = "LINE")
 public class LineEntity implements Serializable {
 
+    @Id
+    @Column(name = "LINE_UUID")
     private String lineUuid;
+
+    @Column(name = "NUMBER_ONE")
     private Integer number1;
+
+    @Column(name = "NUMBER_TWO")
     private Integer number2;
+
+    @Column(name = "NUMBER_THREE")
     private Integer number3;
+
+    @ManyToOne
+    @JoinColumn(name = "TICKET_UUID")
+    private TicketEntity ticket;
 
     public LineEntity() {
     }
@@ -52,5 +67,13 @@ public class LineEntity implements Serializable {
 
     public void setNumber3(Integer number3) {
         this.number3 = number3;
+    }
+
+    public TicketEntity getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(TicketEntity ticket) {
+        this.ticket = ticket;
     }
 }

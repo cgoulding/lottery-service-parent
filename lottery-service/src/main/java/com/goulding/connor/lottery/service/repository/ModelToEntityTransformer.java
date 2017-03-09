@@ -5,7 +5,6 @@ import com.goulding.connor.lottery.service.entity.TicketEntity;
 import com.goulding.connor.lottery.service.model.Line;
 import com.goulding.connor.lottery.service.model.Ticket;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

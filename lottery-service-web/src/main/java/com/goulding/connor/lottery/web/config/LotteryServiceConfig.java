@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Connor Goulding
  */
 @Configuration
-@Import({TicketDaoDevelopmentConfig.class, TicketDaoProductionConfig.class})
+@EnableTransactionManagement
+@Import({FileBasedTicketDaoDevelopmentConfig.class, FileBasedTicketDaoProductionConfig.class})
 public class LotteryServiceConfig {
     @Autowired
     private TicketDao ticketDao;

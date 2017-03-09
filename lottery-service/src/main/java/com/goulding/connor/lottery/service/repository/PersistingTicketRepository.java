@@ -5,6 +5,7 @@ import com.goulding.connor.lottery.service.entity.LineEntity;
 import com.goulding.connor.lottery.service.entity.TicketEntity;
 import com.goulding.connor.lottery.service.model.Line;
 import com.goulding.connor.lottery.service.model.Ticket;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class PersistingTicketRepository implements TicketRepository {
      *
      * @return
      */
+    @Transactional
     @Override
     public List<Ticket> readAllTickets() {
         return ticketDao.readTickets().stream()
@@ -43,6 +45,7 @@ public class PersistingTicketRepository implements TicketRepository {
      * @param ticketLines
      * @return
      */
+    @Transactional
     @Override
     public Ticket addTicket(List<Line> ticketLines) {
         List<LineEntity> lines = ticketLines.stream()
@@ -58,6 +61,7 @@ public class PersistingTicketRepository implements TicketRepository {
      * @param ticketUuid
      * @return
      */
+    @Transactional
     @Override
     public Ticket readTicket(String ticketUuid) {
         TicketEntity ticket = ticketDao.readTicket(ticketUuid);
@@ -73,6 +77,7 @@ public class PersistingTicketRepository implements TicketRepository {
      * @param ticket
      * @return
      */
+    @Transactional
     @Override
     public Ticket updateTicket(Ticket ticket) {
         TicketEntity entity = modelToEntityTransformer.transform(ticket);
